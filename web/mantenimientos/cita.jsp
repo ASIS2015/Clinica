@@ -18,32 +18,43 @@
 // out.println("Contenido Id: "+Id);
  }
      
-        String id = request.getParameter("id");
-      String mensaje = "Error", estilo="danger";
-     Integer estado=0;
+       
+ String id = request.getParameter("id");
+ String mensaje = "Error", estilo="danger";
+ Integer estado=0;
+ Integer estado_cita=0;
             Connection  conexion = DBConexion.obtener();
             Statement Estamento = conexion.createStatement();
             Statement Estamento2 = conexion.createStatement();
-            ResultSet rs,rs2;
-            
+            Statement Estamento3 = conexion.createStatement();
+            ResultSet rs,rs2,rs3;
+                Integer disponibles=1, cantidad=0;
+                Integer disponibles2=1;
+                 Integer disponibles3=1;
+     
 if(DBConexion.obtener() !=null)
 {
     conexion = DBConexion.obtener();
     Estamento = conexion.createStatement();
     Estamento2 = conexion.createStatement();
+    Estamento3 = conexion.createStatement();
+    
     String  periodo= request.getParameter("periodo1");
     String  cant= request.getParameter("cantidad1");
-    
-     String  periodo2= request.getParameter("periodo1");
+    String  periodo2= request.getParameter("periodo1");
     String  cant2= request.getParameter("cantidad2");
-    
-     String  periodo3= request.getParameter("periodo3");
+    String  periodo3= request.getParameter("periodo3");
     String  cant3= request.getParameter("cantidad3");
+    
+
+    
+
     
    
      rs2 = Estamento.executeQuery("select * from citas Where id='"+id+"'");
 
     rs2.next();
+    estado_cita=rs2.getInt("id_estado");
     
      rs = Estamento2.executeQuery("select A.*,B.tipo, C.tipo as 'Especialidad' from personal as A inner join tipo as B ON B.id=A.id_tipo inner join tipo_cita as C ON C.id=A.id_tipo and  A.id='"+rs2.getString("id_personal")+"'");
     rs.next();
@@ -67,8 +78,46 @@ if(periodo!=null && cant!=null){
         
         
          //out.println("Error sql  INSERT INTO recetas VALUES (0,'"+id+"','"+id_medicina+"','"+periodo+"',25)");
-    Estamento.executeUpdate("INSERT INTO recetas VALUES (0,'"+id+"','"+id_medicina+"','"+periodo+"',"+cant+")");
-   
+  if(id_medicina>0 && !cant.equals("")) {
+      
+      cantidad=Integer.parseInt(cant);
+      
+    rs3 = Estamento3.executeQuery("SELECT SUM(Cantidad) as 'suma' FROM  medicinas where id='"+id_medicina+"'");
+    rs3.next();
+    disponibles=rs3.getInt("suma");
+        
+    if(disponibles>=cantidad) Estamento.executeUpdate("INSERT INTO recetas VALUES (0,'"+id+"','"+id_medicina+"','"+periodo+"',"+cant+")"); else disponibles=0;
+      
+        out.print("<h1> C"+disponibles+"</h1>");
+    
+  }
+  
+   if(id_medicina2>0 && !cant2.equals("")) {
+      
+      cantidad=Integer.parseInt(cant);
+      
+    rs3 = Estamento3.executeQuery("SELECT SUM(Cantidad) as 'suma' FROM  medicinas where id='"+id_medicina2+"'");
+    rs3.next();
+    disponibles2=rs3.getInt("suma");
+        
+    if(disponibles>=cantidad) Estamento.executeUpdate("INSERT INTO recetas VALUES (0,'"+id+"','"+id_medicina2+"','"+periodo2+"',"+cant2+")"); else disponibles2=0;
+      
+  
+  }
+  
+   if(id_medicina3>0 && !cant3.equals("")) {
+      
+      cantidad=Integer.parseInt(cant);
+      
+    rs3 = Estamento3.executeQuery("SELECT SUM(Cantidad) as 'suma' FROM  medicinas where id='"+id_medicina3+"'");
+    rs3.next();
+    disponibles3=rs3.getInt("suma");
+        
+    if(disponibles>=cantidad) Estamento.executeUpdate("INSERT INTO recetas VALUES (0,'"+id+"','"+id_medicina3+"','"+periodo3+"',"+cant3+")");  else disponibles3=0;
+      
+  
+  }
+  
                    
                estado=1;
                
@@ -77,6 +126,17 @@ if(periodo!=null && cant!=null){
       
                estilo="success";
     }
+    
+        if(disponibles>0 && disponibles2>0 && disponibles3>0 ){
+        
+        Estamento3.executeUpdate("UPDATE citas SET id_estado='4'  WHERE id='"+id+"';");
+        }
+        
+        
+       rs2 = Estamento.executeQuery("select * from citas Where id='"+id+"'");
+
+    rs2.next();
+    estado_cita=rs2.getInt("id_estado");
     
     }catch (SQLException e){
                    
@@ -259,7 +319,7 @@ if(periodo!=null && cant!=null){
 
    // rs2.next();
 %>    
-    <tr><th>Medicamento 1:</th> <th> <select name="m1"> 
+    <tr><th <% if(disponibles==0) out.print(" bgcolor=red"); %>>Medicamento 1:</th> <th> <select name="m1"> 
                                                     <%
                                                     while(rs2.next()){
                                                         
@@ -270,7 +330,7 @@ if(periodo!=null && cant!=null){
                                                 </select></th><th>Periodo:</th>  <th><input type="text" name="periodo1"></th> 
     <th>Cantidad:</th>  <th><input type="text" name="cantidad1"></th> 
     </tr>
-    <tr><th>Medicamento 2:</th> <th> <select name="m2"> 
+    <tr><th <% if(disponibles2==0) out.print(" bgcolor=red"); %>>Medicamento 2:</th> <th> <select name="m2"> 
                                                     <%
                                                     while(rs2.next()){
                                                         
@@ -281,7 +341,7 @@ if(periodo!=null && cant!=null){
                                                 </select></th><th>Periodo:</th>  <th><input type="text" name="periodo2"></th> 
     <th>Cantidad:</th>  <th><input type="text" name="cantidad2"></th> 
     </tr>
-    <tr><th>Medicamento 3:</th> <th> <select name="m3"> 
+    <tr><th <% if(disponibles3==0) out.print(" bgcolor=red"); %>>Medicamento 3:</th> <th> <select name="m3"> 
                                                     <%
                                                     while(rs2.next()){
                                                         
@@ -295,8 +355,9 @@ if(periodo!=null && cant!=null){
                                                 <th>Cantidad:</th>  <th><input type="text" name="cantidad3"></th> 
     </tr>
     <input type="hidden" value="<% out.print(id); %>" name="id">
+     <% if(disponibles==0 ||disponibles2==0 ||disponibles3==0 ) out.print("<tr bgcolor=red> <th colspan=6> <center>Medicina no suficiente</center> </th> </tr>"); %>
     <tr><td colspan="6"><center><b>Comentarios:</b> <br> <textarea cols="80" rows="4"></textarea></center></td></tr>
-    <tr> <th colspan="6"><center><input type="submit" value="Terminar Cita" class="btn btn-success"> </center></th></tr> 
+ <% if(estado_cita!=4){ %>   <tr> <th colspan="6"><center><input type="submit" value="Terminar Cita" class="btn btn-success"></center></th></tr> <% }%>
 </form>
                                 </table> 
     

@@ -257,7 +257,7 @@ if(paciente!=null){
                out.println("Error sql");
     }
 }                
-if(estado!=2 && rs2.getInt("id_estado")==1){
+if(estado!=2 && rs2.getInt("id_estado")==4){
     
 
                             %>

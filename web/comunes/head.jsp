@@ -38,7 +38,7 @@ Integer nivel_acceso= 0;
                         </li>
                         
                         <li class="divider"></li>
-                        <li><a href="./paginas/logout.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="<% out.println(url); %>paginas/logout.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
