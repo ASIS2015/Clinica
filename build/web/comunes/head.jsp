@@ -58,12 +58,12 @@ Integer nivel_acceso= 0;
                         <li>
                             <a href="#"><i class="fa fa-calendar fa-fw"></i> Citas<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                            <li>
+                      <% if(nivel_acceso==1) { %>       <li>
                                      <a href="<% out.println(url); %>mantenimientos/cita_nuevo.jsp">Nueva</a>
                             </li>
                                 <li>
                                     <a href="<% out.println(url); %>mantenimientos/cita_listar.jsp">Modificar</a>
-                                </li>                               
+                                </li>            <%}%>                   
                                 <li>
                                     <a href="<% out.println(url); %>mantenimientos/cita_consulta.jsp">Consultas</a>
                                 </li>
@@ -79,12 +79,12 @@ Integer nivel_acceso= 0;
                        <li>
                             <a href="#"><i class="fa  fa-male fa-fw"></i> Pacientes<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li>
+                     <% if(nivel_acceso==1) { %>            <li>
                                     <a href="<% out.println(url); %>mantenimientos/paciente_nuevo.jsp">Nuevo</a>
                                 </li>
                                 <li>
                                     <a href="<% out.println(url); %>mantenimientos/paciente_listar.jsp">Modificar</a>
-                                </li>                                <li>
+                                </li>    <%}%>                           <li>
                                     <a href="<% out.println(url); %>mantenimientos/paciente_consulta.jsp">Consultas</a>
                                 </li>
                                 </li>                                <li>
@@ -94,16 +94,16 @@ Integer nivel_acceso= 0;
                             </ul>
                             <!-- /.nav-second-level -->
                         </li> 
-                        
+                      <% if(nivel_acceso==1 || nivel_acceso==2) { %>    
                         <li>
                             <a href="#"><i class="fa fa-user-md fa-fw"></i> M&eacute;dicos <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li>
+                          <% if(nivel_acceso==1) { %>       <li>
                                     <a href="<% out.println(url); %>mantenimientos/medico_nuevo.jsp">Nuevo</a>
                                 </li>
                                 <li>
                                     <a href="<% out.println(url); %>mantenimientos/medico_listar.jsp">Modificar</a>
-                                </li>                                <li>
+                                </li>    <%}%>                            <li>
                                     <a href="<% out.println(url); %>mantenimientos/medico_consulta.jsp">Consultas</a>
                                 </li>
                                 </li>                                <li>
@@ -111,16 +111,16 @@ Integer nivel_acceso= 0;
                                 </li>                                
                             </ul>
                             <!-- /.nav-second-level --> 
-                        </li>
+                        </li> 
                         <li>
                             <a href="#"><i class="fa  fa-child fa-fw"></i> Empleados <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="<% out.println(url); %>mantenimientos/empleado_nuevo.jsp">Nuevo</a>
+                        <% if(nivel_acceso==1) { %>         <li>
+                                   <a href="<% out.println(url); %>mantenimientos/empleado_nuevo.jsp">Nuevo</a> 
                                 </li>
                                 <li>
                                     <a href="<% out.println(url); %>mantenimientos/empleado_listar.jsp">Modificar</a>
-                                </li>                                <li>
+                                </li>   <%}%>                             <li>
                                     <a href="<% out.println(url); %>mantenimientos/empleado_consulta.jsp">Consultas</a>
                                 </li>
                                 </li>                                <li>
@@ -179,7 +179,7 @@ Integer nivel_acceso= 0;
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>                        
-
+<%}%>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

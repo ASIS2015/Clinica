@@ -9,15 +9,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
-
+Integer nivel_acceso= 0;
  if(sesion.getAttribute("id")==null){  
   response.sendRedirect("../paginas/login.jsp");
 } else {
  
  Integer Id=(Integer)sesion.getAttribute("id");
+  nivel_acceso= Integer.parseInt(sesion.getAttribute("nivel").toString());
 // out.println("Contenido Id: "+Id);
  }
-
+if(nivel_acceso!=1){  
+  response.sendRedirect("../index.jsp");
+}
 %>
 <jsp:include page="../comunes/estilos.jsp"></jsp:include>
 <jsp:include page="../comunes/head.jsp"></jsp:include>
@@ -123,7 +126,7 @@
                                             <th><input type="text" name="apellido" required> </th>
                                         </tr>                                        <tr>
                                             <th>DUI:</th>
-                                            <th><input type="text" name="dui" required> </th>
+                                            <th><input type="text" name="dui" placeholder="########-#" pattern="[0-9]{8}[\-][0-9]{1}" required> </th>
                                         </tr>
 </tr>                                          <tr>
                                             <th>JVPM:</th>
@@ -131,16 +134,16 @@
                                         </tr>                                        
                                         <tr>
                                             <th>Celular:</th>
-                                            <th><input type="text" name="celular" required> </th>
+                                            <th><input type="text"  name="celular"  placeholder="####-####" pattern="[0-9]{4}[\-][0-9]{4}" required> </th>
                                         </tr>                                          <tr>
                                             <th>Fijo:</th>
-                                            <th><input type="text" name="fijo" required> </th>
+                                            <th><input type="text" name="fijo"  placeholder="####-####" pattern="[0-9]{4}[\-][0-9]{4}" required> </th>
                                         </tr>                                          <tr>
                                             <th>Nacimiento:</th>
                                             <th><input type="date" name="nac" required> </th>
                                         </tr>                                          <tr>
                                             <th>E-mail:</th>
-                                            <th><input type="email" name="email" id="email" required> </th>
+                                            <th><input type="email" name="email" id="email" placeholder="alguien@empresa.com" required> </th>
                                         </tr> 
                                         <tr>
                                             <th>Domicilio:</th>
