@@ -120,7 +120,7 @@
       
                
                     estilo="danger";  
-                } else if( mes_act<mes_sis && dia_act<dia_sis){
+                } else if( mes_act<=mes_sis && dia_act<dia_sis){
                 
                                    estado=1;    
                
@@ -146,7 +146,7 @@
                     
                 Estamento.executeUpdate("INSERT INTO citas VALUES (0,'"+fecha+" "+hora+"','"+id_paciente+"','"+id_medico+"','"+comentarios+"',1,1)");
                       out.print("<script> window.location.href = 'cita_nuevo.jsp?estado=1&mensaje=Datos%20Guardados';</script>");
-                    
+                
                     
                 }
              

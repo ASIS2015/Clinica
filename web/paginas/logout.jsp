@@ -6,8 +6,7 @@
     response.setDateHeader("Expires", 0);
     
     request.getSession().removeAttribute("id");
-    request.getSession().removeAttribute("id");
-    
+ 
     session.invalidate();
     
     response.sendRedirect("login.jsp");

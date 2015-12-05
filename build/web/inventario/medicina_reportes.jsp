@@ -117,7 +117,7 @@ else
 try 
 { 
 // Creas la instancia del fichero 
-fichero = new FileWriter("C:\\Users\\Roberto\\Documents\\NetBeansProjects\\Clinica\\web\\reportes\\medicinas.xls"); 
+fichero = new FileWriter("C:\\ReportesClinica\\medicinas.xls"); 
 // El carácter \r\n es el que hace que salte una linia en el fichero después de escribir 
 fichero.write(html + "\r\n"); 
 // Cierras el fichero 
